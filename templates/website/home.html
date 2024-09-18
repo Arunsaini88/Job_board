@@ -1,66 +1,52 @@
 {% extends 'base.html' %}
-{% load humanize %}
-{% load widget_tweaks %}
 {% block content %}
-<section>
-    <div class="p-3 mb-3 bg-light rounded-3">
-        <div class="container-fluid py-5">
-            <h3 class="display-5 fw-bold">Django Jobs. Get Hired Quickly!</h3>
+<div class="container text-center py-5">
+    <h1 class="display-4">Find Your Dream Job</h1>
+    <p class="lead">Search thousands of jobs available in your area.</p>
 
-            <div class="card">
+    <!-- Job Search Form -->
+    <form method="GET" action="{% url 'job-listing' %}" class="row gy-2 gx-3 justify-content-center">
+        <div class="col-md-4">
+            <input type="text" name="title" class="form-control" placeholder="Job title, keywords" />
+        </div>
+        <div class="col-md-3">
+            <select name="location" class="form-select">
+                <option value="">Select Location</option>
+                <option value="remote">Remote</option>
+                <option value="onsite">Onsite</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <select name="job_type" class="form-select">
+                <option value="">Job Type</option>
+                <option value="full-time">Full-time</option>
+                <option value="part-time">Part-time</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary w-100">Search Jobs</button>
+        </div>
+    </form>
+</div>
+
+<!-- Featured Jobs Section -->
+<div class="container py-5">
+    <h2>Featured Jobs</h2>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for job in filter.qs %}
+        <div class="col">
+            <div class="card h-100">
                 <div class="card-body">
-                    <form class="row gy-2 gx-4 align-items-center" method="GET">
-                        <div class="col-auto">
-                            <label for="autoSizingInput">Name</label>
-                            {% render_field filter.form.title class="form-control" id="autoSizingInput" placeholder="Job Keyword" %}
-                        </div> 
-
-                        <div class="col-auto">
-                            <label  for="autoSizingSelect">Select Location</label>
-                            {% render_field filter.form.state class="form-select" %}
-                        </div>
-
-                        <div class="col-auto">
-                            <label  for="autoSizingSelect">Chose Job Type</label>
-                            {% render_field filter.form.job_type class="form-select" %}
-                        </div>
-
-                        <div class="col-auto">
-                            <label  for="autoSizingSelect">Select Industry</label>
-                            {% render_field filter.form.industry class="form-select" %}
-                        </div>
-
-                        <div class="col-auto">
-                            <a href="{% url 'job-listing'%}" type="submit" class="btn btn-primary">Search</a>
-                        </div>
-                    </form>
+                    <h5 class="card-title">{{ job.title }}</h5>
+                    <p class="card-text">Industry: {{job.industry}}</p>
+                    <p class="card-text">Location: {{job.city}}, {{job.state}}</p>
+                    <p class="card-text">Job Type: {{ job.job_type }}</p>
+                    <p class="card-text">Salary: {{job.salary}}</p>
+                    <a href="{% url 'job-details' job.pk %}" class="btn btn-outline-primary">View Details</a>
                 </div>
             </div>
-            <p class="col-md-8 fs-6 mt-3">
-                Welcome to Django job Portal! Search and get your dream job. We have thousands of job offering for you.
-                Don't forget to leave a like when you get a job.Goodluck with you job hunt! 
-            </p>
-            <a href="{% url 'job-listing' %}" class="btn btn-outline-primary" type="button">More Jobs</a>
         </div>
+        {% endfor %}
     </div>
-</section>
-
-<div class="row row-cols-1 row-cols-md-3 g-4">
-    {% for job in filter.qs%}
-    <div class="col">
-        <div class="card h-100">
-            <h5 class="card-title">{{job.title}}</h5>
-            <p class="card-text">Industry: {{job.industry}}</p>
-            <p class="card-text">Job Type: {{job.job_type}}</p>
-            <p class="card-text">Location: {{job.city}}, {{job.state}}</p>
-            <p class="card-text">Salary: {{job.salary}}</p>
-        </div>
-        <div class="card-footer">
-            <small class="text-muted">{{job.timestamp|naturaltime}}</small>
-        </div>
-    </div>
-    {% endfor %}
-</div><br> 
-
-
+</div>
 {% endblock %}

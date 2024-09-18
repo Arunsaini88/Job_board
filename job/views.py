@@ -60,7 +60,7 @@ def apply_to_job(request,pk):
                 status = 'Pending',
             )
             messages.info(request, 'You have successfully applied! Please see dashboard')
-            return redirect('dashboard')
+            return redirect('job-listing')
     else:
         messages.info(request, 'Please login to continue')
         return redirect('login')

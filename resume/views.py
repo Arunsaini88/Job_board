@@ -6,7 +6,7 @@ from .form import UpdateResumeForm
 
 
 # Create your views here.
-def update_resume(request):
+def create_resume(request):
     if request.user.is_applicant:
         resume = Resume.objects.get(user=request.user)
         if request.method == 'POST':
@@ -17,14 +17,14 @@ def update_resume(request):
                 user.has_resume = True
                 user.save()
                 var.save()
-                messages.info(request, 'Your resume info has been updated')
+                messages.info(request, 'Your resume info has been created')
                 return redirect('dashboard')
             else:
                 messages.warning(request, 'Something want wrong')
         else:
             form = UpdateResumeForm(instance=resume)
             context = {'form':form}
-            return render(request, 'resume/update_resume.html', context)
+            return render(request, 'resume/create_resume.html', context)
     else:
         messages.warning(request, 'Permession denied')
         return redirect('dashboard')

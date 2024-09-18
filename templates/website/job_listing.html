@@ -1,43 +1,69 @@
-{% extends 'base.html'%}
-
-{% load humanize %}
-
+{% extends 'base.html' %}
 {% block content %}
-
-<section>
-    <div class="p-5 mb-4 bg-light rounded-3">
-        <div class="container-fluid py-5">
-            <h2 class="display-5 fw-bold">Django Jobs. Get Hired Quickly!</h2>
-            <p class="col-md-8 fs-5 mt-5">
-                All Available Jobs
-            </p>
+<div class="container">
+    <h2>Job Listings</h2>
+    
+    <!-- Filters -->
+    <form method="GET" action="{% url 'job-listing' %}" class="row gy-2 gx-3 align-items-center">
+        <div class="col-md-4">
+            <input type="text" name="title" class="form-control" placeholder="Job title" value="{{ request.GET.title }}">
         </div>
-    </div>
-</section>
+        <div class="col-md-3">
+            <select name="location" class="form-select">
+                <option value="">Select Location</option>
+                <option value="remote" {% if request.GET.location == "remote" %}selected{% endif %}>Remote</option>
+                <option value="onsite" {% if request.GET.location == "onsite" %}selected{% endif %}>Onsite</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <select name="job_type" class="form-select">
+                <option value="">Job Type</option>
+                <option value="full-time" {% if request.GET.job_type == "full-time" %}selected{% endif %}>Full-time</option>
+                <option value="part-time" {% if request.GET.job_type == "part-time" %}selected{% endif %}>Part-time</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary w-100">Filter</button>
+        </div>
+    </form>
 
-<div class="row row-cols-1 row-cols-md-3 g-4">
-    {% if jobs %}
-    {% for job in jobs%}
-    <div class="col">
-        <div class="card h-100">
-            <div class="card-body">
-                <h5 class="card-title">{{job.title}}</h5>
-                <p class="card-text">Job Location: {{job.location}}</p>
-                <p class="card-text">{{job.salary|intcomma}}</p>
-                <p class="card-text">Posted by: {{job.company}}</p>
-                {% if request.user.is_authenticated %}
-                <a href="{% url 'job-details' job.pk%}" class="btn btn-primary btn-sm">Viwe Details</a>
-                {% else %}
-                <a href="{% url 'login' %}" class="btn  btn-sm text-danger">Please login</a>
-                {% endif%}
-            </div>
-            <div class="card-footer">
-                <small class="text-muted">Created {{job.timestamp|naturaltime}}</small>
+    <!-- Job Listings -->
+    <div class="row row-cols-1 row-cols-md-2 g-4 mt-4">
+        {% for job in jobs %}
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">{{ job.title }}</h5>
+                    <p class="card-text">{{ job.company }} | {{ job.location }}</p>
+                    <p class="card-text">{{ job.short_description }}</p>
+                    <a href="{% url 'job-details' job.pk %}" class="btn btn-outline-primary">View Details</a>
+                </div>
             </div>
         </div>
+        {% endfor %}
     </div>
-    {% endfor %}
-    {% endif %}
+
+    <!-- Pagination -->
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            {% if jobs.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ jobs.previous_page_number }}">Previous</a>
+            </li>
+            {% endif %}
+
+            {% for i in jobs.paginator.page_range %}
+            <li class="page-item {% if jobs.number == i %}active{% endif %}">
+                <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+            </li>
+            {% endfor %}
+
+            {% if jobs.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ jobs.next_page_number }}">Next</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
 </div>
-<br>
-{% endblock%}
+{% endblock %}
