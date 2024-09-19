@@ -8,11 +8,13 @@
     <p><strong>Salary:</strong> NSG:{{job.salary|intcomma}}</p>
     <p><strong>Description:</strong> {{ job.description }}</p>
     {% if has_applied == False %}
+    {% if is_recruiter == True %}
     <a href="{% url 'apply-to-job' job.pk %}" class="btn btn-success"
       >Apply Now</a
     >
     {% else %}
     <p><span class="text-danger">Applied</span></p>
+    {% endif %}
     {% endif %}
   </div>
 </section>
