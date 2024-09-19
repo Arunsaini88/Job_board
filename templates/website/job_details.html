@@ -12,6 +12,10 @@
     <a href="{% url 'apply-to-job' job.pk %}" class="btn btn-success"
       >Apply Now</a
     >
+    {% elif not request.user.is_authenticated %}
+    <a href="{% url 'login'%}" class="btn btn-success"
+    >Apply Now</a
+        >
     {% else %}
     <p><span class="text-danger">Applied</span></p>
     {% endif %}
