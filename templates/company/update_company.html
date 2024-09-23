@@ -2,11 +2,11 @@
 {% load widget_tweaks%}
 {% block content %}
 
-<div class="row">
-    <div class="col-md-6">
-        <div class="card mx-auto" style="width: 40rem;">
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card mx-auto shadow-sm" style="border-radius: 15px; padding: 20px;">
             <div class="card-body">
-                <h5 class="card-title mb-3">Create a Job Company</h5>
+                <h5 class="card-title mb-4 text-center">Create a Job Company</h5>
 
                 <form method="POST">
                     {% csrf_token %}
@@ -26,9 +26,17 @@
                         <label for="floatingInput" class="form-label">State</label>
                         {% render_field form.state class='form-control' %}       
                     </div>
-
-
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <div class="mb-3">
+                        <label for="floatingInput" class="form-label">Contact no.</label>
+                        {% render_field form.contact_number class='form-control' %}       
+                    </div>
+                    <div class="mb-3">
+                        <label for="floatingInput" class="form-label">Email for Contact</label>
+                        {% render_field form.contact_email class='form-control' %}       
+                    </div>
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-primary px-4">Submit</button>
+                    </div>
                 </form>
 
             </div>

@@ -1,38 +1,36 @@
-{% extends 'base.html' %}{% load humanize %} {% block content %}
+{% extends 'base.html' %}{% load humanize %} 
+
+{% block content %}
 <section>
   <div class="container">
     <h1>{{ job.title }}</h1>
     <p><strong>Company:</strong> {{ job.company }}</p>
-    <p><strong>Location:</strong> {{ job.location }}</p>
+    <p><strong>Location:</strong> {{ job.city }}</p>
     <p><strong>Job Type:</strong> {{ job.job_type }}</p>
-    <p><strong>Salary:</strong> NSG:{{job.salary|intcomma}}</p>
+    <p><strong>Salary:</strong> NSG:{{ job.salary|intcomma }}</p>
     <p><strong>Description:</strong> {{ job.description }}</p>
-    {% if has_applied == False %}
-    {% if is_recruiter == True %}
-    <a href="{% url 'apply-to-job' job.pk %}" class="btn btn-success"
-      >Apply Now</a
-    >
-    {% elif not request.user.is_authenticated %}
-    <a href="{% url 'login'%}" class="btn btn-success"
-    >Apply Now</a
-        >
+    
+    {% if not request.user.is_authenticated %}
+      <a href="{% url 'login' %}" class="btn btn-success">Apply Now</a>
+    {% elif has_applied %}
+      <p><span class="text-danger">Applied</span></p>
     {% else %}
-    <p><span class="text-danger">Applied</span></p>
-    {% endif %}
+      <a href="{% url 'apply-to-job' job.pk %}" class="btn btn-success">Apply Now</a>
     {% endif %}
   </div>
 </section>
+
 <div>
   <section>
     <h5>Job Description</h5>
-    <p>{{job.requirements}}</p>
+    <p>{{ job.requirements }}</p>
   </section>
 </div>
 <br />
 <div>
   <section>
-    <h5>Ideal Candiate</h5>
-    <p>{{job.ideal_candidate}}</p>
+    <h5>Ideal Candidate</h5>
+    <p>{{ job.ideal_candidate }}</p>
   </section>
 </div>
 <br />
@@ -45,7 +43,7 @@
         <p class="card-text">Something About Company</p>
       </div>
       <div class="card-footer">
-        <small class="text-muted">{{job.timestamp|naturaltime}}</small>
+        <small class="text-muted">{{ job.timestamp|naturaltime }}</small>
       </div>
     </div>
   </div>
@@ -53,14 +51,12 @@
     <div class="card h-100">
       <div class="card-body">
         <h3 class="card-title">About Company</h3>
-        <p class="card-text">Company Name: {{job.company.name}}</p>
-        <p class="card-text">
-          Located In: {{job.company.city}}, {{job.company.state}}
-        </p>
-        <p class="card-text">Established Year: {{job.company.est_date}}</p>
+        <p class="card-text">Company Name: {{ job.company.name }}</p>
+        <p class="card-text">Located In: {{ job.company.city }}, {{ job.company.state }}</p>
+        <p class="card-text">Established Year: {{ job.company.est_date }}</p>
       </div>
       <div class="card-footer">
-        <small class="text-muted">{{job.timestamp|naturaltime}}</small>
+        <small class="text-muted">{{ job.timestamp|naturaltime }}</small>
       </div>
     </div>
   </div>
@@ -71,7 +67,7 @@
         <p class="card-text">Something About Company</p>
       </div>
       <div class="card-footer">
-        <small class="text-muted">{{job.timestamp|naturaltime}}</small>
+        <small class="text-muted">{{ job.timestamp|naturaltime }}</small>
       </div>
     </div>
   </div>

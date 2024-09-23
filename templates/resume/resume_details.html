@@ -1,42 +1,30 @@
-{% extends 'base.html'%}
-{% load widget_tweaks%}
-{% block content %}
+{% extends 'base.html'%} {% load widget_tweaks%} {% block content %}
 
-<div class="row">
-    <div class="col-md-6">
-        <div class="card mx-auto" style="width: 40rem;">
-            <div class="card-body">
-                <h5 class="card-title mb-3">Create a Resume</h5>
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <div
+      class="card mx-auto shadow-sm"
+      style="border-radius: 15px; padding: 20px"
+    >
+      <div class="card-body">
+        <h5 class="card-title mb-3 text-center">Create a Resume</h5>
 
-                <form method="POST" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <div class="mb-3">
-                        <label for="floatingInput" class="form-label">First Name</label>
-                        {% render_field form.first_name class='form-control'  %}       
-                    </div>
-                    <div class="mb-3">
-                        <label for="floatingInput" class="form-label">Last Name</label>
-                        {% render_field form.last_name class='form-control' %}       
-                    </div>
-                    <div class="mb-3">
-                        <label for="floatingInput" class="form-label">Location</label>
-                        {% render_field form.location class='form-control' %}       
-                    </div>
-                    <div class="mb-3">
-                        <label for="floatingInput" class="form-label">Job Title</label>
-                        {% render_field form.job_title class='form-control' %}       
-                    </div>
-                    <div class="mb-3">
-                        <label for="floatingInput" class="form-label">Upload Resume</label>
-                        {% render_field form.upload_resume class='form-control' %}       
-                    </div>
-
-
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
-
-            </div>
-        </div>
+        <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          <p><strong>First Name:</strong> {{ resume.first_name }}</p>
+          <p><strong>Last Name:</strong> {{ resume.last_name }}</p>
+          <p><strong>Location:</strong> {{ resume.location }}</p>
+          <p><strong>Job Title:</strong> {{ resume.job_title }}</p>
+          <p>
+            <strong>Resume File:</strong>
+            <a href="{{ resume.upload_resume.url }}">{{resume.upload_resume}}</a>
+          </p>
+          <a href="{% url 'create-resume'%}" class="btn btn-primary"
+            >Edit Resume</a
+          >
+        </form>
+      </div>
     </div>
+  </div>
 </div>
 {% endblock %}

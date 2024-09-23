@@ -18,7 +18,14 @@ class Job(models.Model):
     job_type_choices = (
         ('Remote','Remote'),
         ('Onsite','Onsite'),
-        ('Hybrid','Hybrid')
+        ('Hybrid','Hybrid'),
+        ('Full-Time','Full-Time'),
+        ('Part-Time','Part-Time'),
+        ('Internship','Internship'),
+    )
+    CHOICES = (
+        ('YES','yes'),
+        ('OPTIONAL', 'optional'),
     )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
@@ -32,6 +39,7 @@ class Job(models.Model):
     industry = models.ForeignKey(Industry, on_delete=models.DO_NOTHING, null=True, blank=True)
     state = models.ForeignKey(State, on_delete=models.DO_NOTHING, null=True, blank=True)
     job_type = models.CharField(max_length=20,choices =job_type_choices, null=True, blank=True)
+    required_cv = models.CharField(choices=CHOICES,default='YES',max_length=20)
     def __str__(self):
         return self.title
         

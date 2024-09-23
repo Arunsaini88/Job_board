@@ -6,31 +6,41 @@
     <h1 class="display-4">Find Your Dream Job</h1>
     <p class="lead">Search thousands of jobs available in your area.</p>
 
-    
-    <form method="GET"  class="row gy-2 gx-3 justify-content-center">
-        <div class="col-md-4">
-            <input type="text" name="title" class="form-control" placeholder="Job title, keywords" />
+    <form method="GET" class="row gy-2 gx-3 justify-content-center">
+        <div class="col-md-3 col-sm-6">
+            <input type="text" name="title" class="form-control" placeholder="Job title, keywords" value="{{ request.GET.title }}" />
         </div>
-        <div class="col-md-3">
-            <!-- <label  for="autoSizingSelect">Select Location</label> -->
-            {% render_field filter.form.state class="form-select" value='Select'%}
-            <!-- <select name="location" class="form-select">
-                <option value="">Select Location</option>
-                <option value="remote">Remote</option>
-                <option value="onsite">Onsite</option>
-            </select> -->
+        <div class="col-md-2 col-sm-6">
+            <select name="state" class="form-select">
+                <option value="">Select State</option>
+                {% for state in filter.form.state.field.choices %}
+                    <option value="{{ state.0 }}" {% if filter.form.state.value == state.0 %}selected{% endif %}>
+                        {{ state.1 }}
+                    </option>
+                {% endfor %}
+            </select>
         </div>
-        <div class="col-md-3">
-
-            <!-- <label  for="autoSizingSelect">Job Type</label> -->
-            {% render_field filter.form.job_type class="form-select" %}
-            <!-- <select name="job_type" class="form-select">
-                <option value="">Job Type</option>
-                <option value="full-time">Full-time</option>
-                <option value="part-time">Part-time</option>
-            </select> -->
+        <div class="col-md-2 col-sm-6">
+            <select name="industry" class="form-select">
+                <option value="">Select Industry</option>
+                {% for industry in filter.form.industry.field.choices %}
+                    <option value="{{ industry.0 }}" {% if filter.form.industry.value == industry.0 %}selected{% endif %}>
+                        {{ industry.1 }}
+                    </option>
+                {% endfor %}
+            </select>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-2 col-sm-6">
+            <select name="job_type" class="form-select">
+                <option value="">Select Job Type</option>
+                {% for choice in filter.form.job_type.field.choices %}
+                    <option value="{{ choice.0 }}" {% if filter.form.job_type.value == choice.0 %}selected{% endif %}>
+                        {{ choice.1 }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-2 col-sm-6">
             <button type="submit" class="btn btn-primary w-100">Search Jobs</button>
         </div>
     </form>

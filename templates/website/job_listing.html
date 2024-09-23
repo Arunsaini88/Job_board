@@ -4,43 +4,62 @@
     <h2>Job Listings</h2>
     
     <!-- Filters -->
-    <form method="GET" action="{% url 'job-listing' %}" class="row gy-2 gx-3 align-items-center">
-        <div class="col-md-4">
+    <form method="GET" action="{% url 'job-listing' %}" class="row gy-2 gx-3 align-items-center justify-content-center">
+        <div class="col-auto">
             <input type="text" name="title" class="form-control" placeholder="Job title" value="{{ request.GET.title }}">
         </div>
-        <div class="col-md-3">
-            <select name="location" class="form-select">
-                <option value="">Select Location</option>
-                <option value="remote" {% if request.GET.location == "remote" %}selected{% endif %}>Remote</option>
-                <option value="onsite" {% if request.GET.location == "onsite" %}selected{% endif %}>Onsite</option>
+        <div class="col-auto">
+            <select name="state" class="form-select">
+                <option value="">Select State</option>
+                {% for state in states %}
+                    <option value="{{ state.name }}" {% if request.GET.state == state.name %}selected{% endif %}>{{ state.name }}</option>
+                {% endfor %}
             </select>
         </div>
-        <div class="col-md-3">
+        <div class="col-auto">
+            <select name="industry" class="form-select">
+                <option value="">Select Industry</option>
+                {% for industry in industries %}
+                    <option value="{{ industry.id }}" {% if request.GET.industry == industry.id|stringformat:"s" %}selected{% endif %}>{{ industry.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-auto">
             <select name="job_type" class="form-select">
                 <option value="">Job Type</option>
                 <option value="full-time" {% if request.GET.job_type == "full-time" %}selected{% endif %}>Full-time</option>
                 <option value="part-time" {% if request.GET.job_type == "part-time" %}selected{% endif %}>Part-time</option>
+                <option value="freelance" {% if request.GET.job_type == "freelance" %}selected{% endif %}>Freelance</option>
+                <option value="internship" {% if request.GET.job_type == "internship" %}selected{% endif %}>Internship</option>
+                <option value="contract" {% if request.GET.job_type == "contract" %}selected{% endif %}>Contract</option>
             </select>
         </div>
-        <div class="col-md-2">
-            <button type="submit" class="btn btn-primary w-100">Filter</button>
+        
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">Filter</button>
         </div>
     </form>
 
     <!-- Job Listings -->
     <div class="row row-cols-1 row-cols-md-2 g-4 mt-4">
-        {% for job in jobs %}
-        <div class="col">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h5 class="card-title">{{ job.title }}</h5>
-                    <p class="card-text">{{ job.company }} | {{ job.location }}</p>
-                    <p class="card-text">{{ job.short_description }}</p>
-                    <a href="{% url 'job-details' job.pk %}" class="btn btn-outline-primary">View Details</a>
+        {% if jobs %}
+            {% for job in jobs %}
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ job.title }}</h5>
+                        <p class="card-text">{{ job.company }} | {{ job.location }}</p>
+                        <p class="card-text">{{ job.short_description }}</p>
+                        <a href="{% url 'job-details' job.pk %}" class="btn btn-outline-primary">View Details</a>
+                    </div>
                 </div>
             </div>
-        </div>
-        {% endfor %}
+            {% endfor %}
+        {% else %}
+            <div class="col-12 text-center">
+                <p>No jobs found matching your criteria. Please try a different filter.</p>
+            </div>
+        {% endif %}
     </div>
 
     <!-- Pagination -->
@@ -66,4 +85,5 @@
         </ul>
     </nav>
 </div>
+
 {% endblock %}

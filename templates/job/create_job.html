@@ -2,53 +2,58 @@
 {% load widget_tweaks%}
 {% block content %}
 
-<div class="row">
-    <div class="col-md-6">
-        <div class="card mx-auto" style="width: 40rem;">
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card mx-auto shadow-sm" style="border-radius: 15px; padding: 20px;">
             <div class="card-body">
-                <h5 class="card-title mb-3">Create a Job Ad</h5>
+                <h5 class="card-title mb-3 text-center">Create your Job</h5>
 
                 <form method="POST">
                     {% csrf_token %}
                     <div class="mb-3">
-                        <label for="floatingInput" class="form-label">Job Title</label>
+                        <label for="floatingInput" class="form-label">Job Title <span class="text-danger">*</span></label>
                         {% render_field form.title class='form-control' %}       
                     </div>
                     <div class="mb-3">
-                        <label for="floatingInput" class="form-label">Salary</label>
+                        <label for="floatingInput" class="form-label">Salary <span class="text-danger">*</span></label>
                         {% render_field form.salary class='form-control' %}       
                     </div>
                     <div class="mb-3">
-                        <label for="floatingInput" class="form-label">City</label>
+                        <label for="floatingInput" class="form-label">Job City <span class="text-danger">*</span></label>
                         {% render_field form.city class='form-control' %}       
                     </div>
                     <div class="mb-3">
-                        <label for="floatingInput" class="form-label">State</label>
+                        <label for="floatingInput" class="form-label">State <span class="text-danger">*</span></label>
                         {% render_field form.state class='form-control' %}       
                     </div>
                     <div class="mb-3">
-                        <label for="floatingInput" class="form-label">Industry</label>
+                        <label for="floatingInput" class="form-label">Industry <span class="text-danger">*</span></label>
                         {% render_field form.industry class='form-control' %}       
                     </div>
                     <div class="mb-3">
-                        <label for="floatingInput" class="form-label">Job Type</label>
+                        <label for="floatingInput" class="form-label">Job Type <span class="text-danger">*</span></label>
                         {% render_field form.job_type class='form-control' %}       
                     </div>
                     <div class="mb-3">
-                        <label for="floatingInput" class="form-label">Job Requirement</label>
+                        <label for="floatingInput" class="form-label">Job Requirement <span class="text-danger">*</span></label>
                         {% render_field form.requirements|attr:'rows:2' class='form-control' %}       
                     </div>
                     <div class="mb-3">
-                        <label for="floatingInput" class="form-label">Ideal Candidate</label>
+                        <label for="floatingInput" class="form-label">Qualification <span class="text-danger">*</span></label>
                         {% render_field form.ideal_candidate|attr:'rows:2' class='form-control' %}       
                     </div>
+                    <div class="mb-3"></div>
+                        <label for="floatingInput" class="form-label">Ask for Candidate CV <span class="text-danger">*</span></label>
+                        {% render_field form.required_cv class='form-control' %}       
+                    </div>
                     <div class="mb-3">
-                        <label for="floatingInput" class="form-label">Is this Job Available</label>
+                        <label for="floatingInput" class="form-label">Is this Job Available <span class="text-danger">*</span></label>
                         {% render_field form.is_available class='form-check-input' %}       
                     </div>
 
-
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-primary px-4">Submit</button>
+                    </div>
                 </form>
 
             </div>
